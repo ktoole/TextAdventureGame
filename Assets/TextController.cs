@@ -6,7 +6,7 @@ using UnityEngine;
 public class TextController : MonoBehaviour {
 
     public Text text;
-    private enum States { cell, mirror, sheets_0, lock_0, sheets_1, lock_1, freedom};
+    private enum States { cell, cellMirror, mirror, sheets_0, lock_0, sheets_1, lock_1, freedom};
     private States myState;
 
 	// Use this for initialization
@@ -26,6 +26,14 @@ public class TextController : MonoBehaviour {
         {
             stateSheets0();
         }
+        else if (myState == States.lock_0)
+        {
+            stateLock_0();
+        }
+        else if (myState == States.mirror)
+        {
+            stateMirror();
+        }
 
     }
 
@@ -41,6 +49,14 @@ public class TextController : MonoBehaviour {
 
             myState = States.sheets_0;
            
+        }
+        else if (Input.GetKeyDown(KeyCode.M))
+        {
+            myState = States.mirror;
+        }
+        else if (Input.GetKeyDown(KeyCode.L))
+        {
+            myState = States.lock_0;
         }
     }
 
@@ -59,5 +75,36 @@ public class TextController : MonoBehaviour {
         }
     }
 
-            
+    void stateMirror()
+    {
+        text.text = "You inspect the mirror and find a small hole behind it. " +
+        "You look in the hole and find a thin rock that can be used as a lock pick! Eureka! \n\n" +
+        "Press T to take the lock pick or R to return to roaming your cell.";
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+
+            myState = States.cell;
+
+        }else if (Input.GetKeyDown(KeyCode.T))
+        {
+            myState = States.cellMirror;
+        }
+    }
+
+    void stateLock_0()
+    {
+        text.text = "You tried the lock and as you expected, it's too tough " +
+        "to break. Bummer... \n\n" +
+        "Press R to return to roaming your cell.";
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+
+            myState = States.cell;
+
+        }
+    }
+
+
 }
